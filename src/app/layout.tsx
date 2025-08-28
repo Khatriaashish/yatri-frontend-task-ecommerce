@@ -21,10 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${quicksand.className}  antialiased bg-black bg-gradient-to-br to-black via-black from-gray-800 text-white min-h-screen`}
+        className={`${quicksand.className}  antialiased bg-black bg-gradient-to-br to-black via-black from-gray-800 text-white min-h-screen h-full w-full`}
       >
         <Sidebar />
-        {children}
+        <main className="ml-[64px] h-screen w-full">{children}</main>
       </body>
     </html>
   );
