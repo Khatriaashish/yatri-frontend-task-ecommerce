@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import { CartItem } from "../cartItem/cartItem.component";
 import { FiTrash2 } from "react-icons/fi";
@@ -28,6 +30,8 @@ export const CartList: FC<CartListProps> = ({ items }) => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const noOfItems = items.reduce((total, item) => total + item.quantity, 0);
   return (
     <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md">
       {/* Cart List */}
@@ -37,7 +41,11 @@ export const CartList: FC<CartListProps> = ({ items }) => {
         ))}
       </div>
 
-      {/* Total Price */}
+      {/* Total Items */}
+      <div className="total-price text-right mt-4 text-2xl font-semibold text-gray-800 dark:text-gray-200">
+        No.of Items:{" "}
+        <span className="text-yellow-600">{noOfItems.toFixed(0)}</span>
+      </div>
       <div className="total-price text-right mt-4 text-2xl font-semibold text-gray-800 dark:text-gray-200">
         Total: <span className="text-yellow-600">${totalPrice.toFixed(2)}</span>
       </div>

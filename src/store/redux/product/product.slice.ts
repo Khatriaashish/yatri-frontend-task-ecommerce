@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAllProducts, getProuctById } from "./product.service";
+import { on } from "events";
 
 export const getProdcutsAction = createAsyncThunk(
   "product/get",
@@ -17,7 +18,15 @@ export const getProdcutsAction = createAsyncThunk(
 export const getProductByIdAction = createAsyncThunk(
   "product/getById",
   async (
-    { id, onSuccess }: { id: number; onSuccess: (res: Api.IProduct) => void },
+    {
+      id,
+      onSuccess,
+      onFailure,
+    }: {
+      id: number;
+      onSuccess: (res: Api.IProduct) => void;
+      onFailure?: (error: string) => void;
+    },
     thunkAPI
   ) => {
     try {
@@ -25,6 +34,7 @@ export const getProductByIdAction = createAsyncThunk(
       onSuccess?.(response);
       return response;
     } catch (except) {
+      onFailure?.("Cannot fetch product right now!");
       console.log("getProductByIdAction", except);
       return thunkAPI.rejectWithValue("Cannot fetch product right now!");
     }
@@ -34,6 +44,7 @@ export const getProductByIdAction = createAsyncThunk(
 interface IProductStates {
   products: Api.IProduct[];
   productsLoading: boolean;
+  productsError?: string;
 }
 
 const initialState: IProductStates = {
@@ -55,6 +66,7 @@ export const productSlice = createSlice({
     });
     builder.addCase(getProdcutsAction.rejected, (state) => {
       state.productsLoading = false;
+      state.productsError = "Error fetching products right now!";
     });
   },
 });

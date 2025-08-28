@@ -32,7 +32,7 @@ export const Sidebar = () => {
       {/* Mobile hamburger button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800 text-white rounded-lg"
+        className="md:hidden fixed top-4 left-4 z-60 p-2 bg-gray-800 text-white rounded-lg"
       >
         <MdOutlineSegment size={22} />
       </button>

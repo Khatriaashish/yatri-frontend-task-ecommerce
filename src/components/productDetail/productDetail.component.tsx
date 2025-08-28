@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "@/store/hooks.store";
 import { getProductByIdAction } from "@/store/redux/product/product.slice";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { QuantitySelector } from "..";
+import { FC, useEffect, useState } from "react";
+import { ProductDetailSkeleton, QuantitySelector } from "..";
 import { FaShoppingCart } from "react-icons/fa";
 import { Button } from "../button/button.component";
 import { addProduct } from "@/store/redux/cart/cart.slice";
 import toast from "react-hot-toast";
+import { FiAlertCircle } from "react-icons/fi";
 
 export const ProductDetail = () => {
   const params = useParams();
@@ -19,7 +20,8 @@ export const ProductDetail = () => {
   const [activeProduct, setActiveProduct] = useState<{
     data: Api.IProduct;
     loading: boolean;
-  }>({ data: {} as Api.IProduct, loading: true });
+    error: string;
+  }>({ data: {} as Api.IProduct, loading: true, error: "" });
 
   const [quantity, setQuantity] = useState(1);
   const { cartProducts } = useSelector((state) => state.cart);
@@ -31,7 +33,10 @@ export const ProductDetail = () => {
     dispatch(
       getProductByIdAction({
         id: productId,
-        onSuccess: (res) => setActiveProduct({ data: res, loading: false }),
+        onSuccess: (res) =>
+          setActiveProduct({ data: res, loading: false, error: "" }),
+        onFailure: (error) =>
+          setActiveProduct({ data: {} as Api.IProduct, loading: false, error }),
       })
     );
   }, [productId, dispatch]);
@@ -41,10 +46,19 @@ export const ProductDetail = () => {
     toast.success("Product added to cart. Checkout the cart page.");
   };
 
+  const errorMessage = (
+    <div className=" error col-span-full flex items-center justify-center gap-2 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg shadow-md mt-4">
+      <FiAlertCircle className="w-6 h-6" />
+      <span className="text-center font-medium">{activeProduct?.error}</span>
+    </div>
+  );
+
   return (
     <>
       {activeProduct?.loading ? (
-        <>Loading</>
+        <ProductDetailSkeleton />
+      ) : activeProduct?.error !== "" ? (
+        errorMessage
       ) : (
         <div className="productDetail grid grid-cols-1 md:grid-cols-5 p-4 md:p-10 gap-6 md:gap-8 items-stretch">
           <div
