@@ -34,8 +34,6 @@ export const Sidebar = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  console.log("Session:", session);
-
   return (
     <>
       {/* Mobile hamburger button */}

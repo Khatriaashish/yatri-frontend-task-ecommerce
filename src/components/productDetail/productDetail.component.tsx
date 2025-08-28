@@ -26,8 +26,6 @@ export const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const { cartProducts } = useSelector((state) => state.cart);
 
-  console.log("cartProducts", cartProducts);
-
   useEffect(() => {
     if (!productId) return;
     dispatch(
