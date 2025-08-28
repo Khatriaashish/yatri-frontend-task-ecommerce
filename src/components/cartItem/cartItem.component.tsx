@@ -53,13 +53,10 @@ export const CartItem: FC<CartItemProps> = ({ item }) => {
       </div>
       <button
         onClick={() => handleDeleteItem(item.id)}
-        className="w-full sm:w-auto mt-3 sm:mt-0 self-start sm:ml-4 cursor-pointer px-3 bg-gradient-to-r  text-white rounded transition shadow flex items-center justify-center gap-2"
+        className="bg-red-500 w-full sm:w-auto mt-3 sm:mt-0 sm:ml-4 cursor-pointer px-3 py-2 bg-gradient-to-r  text-white rounded transition shadow flex items-center justify-center gap-2"
       >
-        <MdDelete
-          size={25}
-          className="inline-block hover:opacity-50"
-          color="red"
-        />
+        <MdDelete size={25} className="inline-block hover:opacity-50" />
+        Delete
       </button>
     </div>
   );
