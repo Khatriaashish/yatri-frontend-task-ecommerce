@@ -21,7 +21,7 @@ const navItems = [
   },
 ];
 
-export default function Sidebar() {
+export const Sidebar = () => {
   const [expanded, setExpanded] = useState(false); // for tablet toggle
   const [mobileOpen, setMobileOpen] = useState(false); // for mobile menu
   const [asideHovered, setAsideHovered] = useState(false); // for desktop hover
@@ -110,7 +110,10 @@ export default function Sidebar() {
 
       {/* Mobile fullscreen sidebar */}
       {mobileOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex">
+        <div
+          className="fixed inset-0 backdrop-blur-xl bg-opacity-60 z-50 flex"
+          onClick={() => setMobileOpen(false)}
+        >
           <aside className="w-64 bg-gray-900 h-full text-white p-4 flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
@@ -118,24 +121,36 @@ export default function Sidebar() {
             >
               <MdOutlineClose size={22} />
             </button>
-            <nav className="flex-1 flex flex-col gap-4">
-              {navItems.map((item, i) => (
-                <a
-                  key={i}
-                  href={item.href}
+
+            <nav className="flex-1 flex flex-col justify-between gap-4">
+              <div className="top flex flex-col gap-2">
+                {navItems.map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2 text-gray-500 rounded-md ${
+                      pathname === item.href ? "text-white" : ""
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </a>
+                ))}
+              </div>
+              <div className="bottom pb-4">
+                <div
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2 text-gray-500 rounded-md ${
-                    pathname === item.href ? "text-white" : ""
-                  }`}
+                  className={`flex items-center gap-3 px-3 py-2 text-gray-500 rounded-md`}
                 >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </a>
-              ))}
+                  <MdLogout size={20} />
+                  <span>Login</span>
+                </div>
+              </div>
             </nav>
           </aside>
         </div>
       )}
     </>
   );
-}
+};

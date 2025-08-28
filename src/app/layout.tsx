@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
-import Sidebar from "./components/sidebar/sidebar.component";
+import { Providers } from "./provider.store";
+import { Sidebar } from "../components";
+import { Toaster } from "react-hot-toast";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -19,12 +21,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="">
       <body
-        className={`${quicksand.className}  antialiased bg-black bg-gradient-to-br to-black via-black from-gray-800 text-white min-h-screen h-full w-full`}
+        className={`${quicksand.className} antialiased bg-black text-white min-h-screen h-full w-full`}
+        style={{
+          background:
+            "radial-gradient(circle at top left, #1e293b 0%, #000000 60%, #000 100%)",
+          backgroundAttachment: "fixed",
+        }}
       >
-        <Sidebar />
-        <main className="ml-[64px] h-screen w-full">{children}</main>
+        <Providers>
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "#1f2937", // Tailwind gray-800
+                color: "#f3f4f6", // Tailwind gray-100
+              },
+            }}
+          />
+          <Sidebar />
+          <main className="md:pl-[64px] w-full">{children}</main>
+        </Providers>
       </body>
     </html>
   );
