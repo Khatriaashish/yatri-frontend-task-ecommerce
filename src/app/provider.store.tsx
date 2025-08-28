@@ -7,7 +7,10 @@ import { PersistGate } from "redux-persist/integration/react";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
-    <SessionProvider>
+    <SessionProvider
+      refetchInterval={5 * 60} // optional
+      basePath="/api/auth"
+    >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {children}

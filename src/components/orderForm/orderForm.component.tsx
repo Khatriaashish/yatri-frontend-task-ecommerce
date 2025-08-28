@@ -1,9 +1,10 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useSession } from "next-auth/react";
 
 interface OrderFormProps {
   checkoutHandler: (data: OrderFormInputs) => void;
@@ -27,13 +28,26 @@ const schema = yup.object().shape({
 });
 
 export const OrderForm: FC<OrderFormProps> = ({ checkoutHandler }) => {
+  const { data: session } = useSession();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<OrderFormInputs>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      fullName: session?.user?.name || "",
+      email: session?.user?.email || "",
+    },
   });
+
+  useEffect(() => {
+    if (session?.user) {
+      setValue("fullName", session.user.name || "");
+      setValue("email", session.user.email || "");
+    }
+  }, [session, setValue]);
 
   const onSubmit = (data: OrderFormInputs) => {
     checkoutHandler(data);

@@ -1,6 +1,9 @@
 "use client";
 
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import {
   MdLogout,
@@ -26,6 +29,10 @@ export const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false); // for mobile menu
   const [asideHovered, setAsideHovered] = useState(false); // for desktop hover
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  console.log("Session:", session);
 
   return (
     <>
@@ -89,7 +96,14 @@ export const Sidebar = () => {
           </div>
           <div className="bottom">
             <div
-              className={`group flex items-center  gap-3 px-3 py-2 text-gray-500 hover:text-white rounded-md `}
+              className={`group flex items-center  gap-3 px-3 py-2  ${
+                pathname === "/login" ? "text-white" : "text-gray-500"
+              } hover:text-white rounded-md `}
+              onClick={() => {
+                if (status === "authenticated") {
+                  signOut({ callbackUrl: "/" });
+                } else router.push("/login");
+              }}
             >
               <span className="pl-2">
                 <MdLogout size={20} />
@@ -101,7 +115,7 @@ export const Sidebar = () => {
                     : "max-w-0 opacity-0 ml-0"
                 }`}
               >
-                Login
+                {status === "authenticated" ? session?.user?.name : "Login"}
               </span>
             </div>
           </div>
@@ -140,11 +154,18 @@ export const Sidebar = () => {
               </div>
               <div className="bottom pb-4">
                 <div
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2 text-gray-500 rounded-md`}
+                  onClick={() => {
+                    if (status !== "authenticated") {
+                      router.push("/login");
+                    } else signOut({ callbackUrl: "/" });
+                    setMobileOpen(false);
+                  }}
+                  className={`flex items-center ${
+                    pathname === "/login" ? "text-white" : "text-gray-500"
+                  } gap-3 px-3 py-2 rounded-md`}
                 >
                   <MdLogout size={20} />
-                  <span>Login</span>
+                  <span>{session?.user?.name || "Login"}</span>
                 </div>
               </div>
             </nav>
