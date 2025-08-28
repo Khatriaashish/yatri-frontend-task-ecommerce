@@ -40,9 +40,11 @@ export default function Home() {
       const regex = new RegExp(debouncedSearchTerm.trim(), "i");
       const filtered = products.filter((product) => regex.test(product.title));
       setFilteredProducts(filtered);
+      goToPage(1);
     } catch (err) {
       console.error("Invalid regex pattern", err);
       setFilteredProducts(products);
+      goToPage(1);
     }
   }, [debouncedSearchTerm, products]);
   return (

@@ -1,10 +1,12 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 import { useState } from "react";
+import { BiUser } from "react-icons/bi";
 import {
   MdLogout,
   MdShoppingCart,
@@ -37,12 +39,14 @@ export const Sidebar = () => {
   return (
     <>
       {/* Mobile hamburger button */}
-      <button
-        onClick={() => setMobileOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-60 p-2 bg-gray-800 text-white rounded-lg"
-      >
-        <MdOutlineSegment size={22} />
-      </button>
+      {!mobileOpen && (
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="md:hidden fixed top-4 left-4 z-60 p-2 bg-gray-800 text-white rounded-lg"
+        >
+          <MdOutlineSegment size={22} />
+        </button>
+      )}
 
       {/* Sidebar (desktop + tablet) */}
       <aside
@@ -95,6 +99,40 @@ export const Sidebar = () => {
             ))}
           </div>
           <div className="bottom">
+            {session?.user?.name && (
+              <div
+                className={`group flex items-center  gap-3 px-3 py-2  ${
+                  pathname === "/login" ? "text-white" : "text-gray-500"
+                } hover:text-white rounded-md `}
+              >
+                <span className="pl-2">
+                  {session?.user?.image ? (
+                    <span className="block w-6 h-6 rounded-full overflow-hidden border-2 border-gray-400">
+                      <Image
+                        src={session.user.image}
+                        alt={session.user.name || "User"}
+                        width={24}
+                        height={24}
+                        className="w-full h-full object-cover rounded-full"
+                        priority
+                      />
+                    </span>
+                  ) : (
+                    <BiUser size={20} />
+                  )}
+                </span>
+                <span
+                  className={`transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap ${
+                    expanded || asideHovered
+                      ? "max-w-full opacity-100 ml-2 mr-10"
+                      : "max-w-0 opacity-0 ml-0"
+                  }`}
+                >
+                  {session?.user?.name}
+                </span>
+              </div>
+            )}
+
             <div
               className={`group flex items-center  gap-3 px-3 py-2  ${
                 pathname === "/login" ? "text-white" : "text-gray-500"
@@ -115,7 +153,7 @@ export const Sidebar = () => {
                     : "max-w-0 opacity-0 ml-0"
                 }`}
               >
-                {status === "authenticated" ? session?.user?.name : "Login"}
+                {status === "authenticated" ? "Logout" : "Login"}
               </span>
             </div>
           </div>
@@ -153,6 +191,30 @@ export const Sidebar = () => {
                 ))}
               </div>
               <div className="bottom pb-4">
+                {session?.user?.name && (
+                  <div
+                    className={`flex items-center ${
+                      pathname === "/login" ? "text-white" : "text-gray-500"
+                    } gap-3 px-3 py-2 rounded-md`}
+                  >
+                    {session?.user?.image ? (
+                      <span className="block w-6 h-6 rounded-full overflow-hidden border-2 border-gray-400">
+                        <Image
+                          src={session.user.image}
+                          alt={session.user.name || "User"}
+                          width={24}
+                          height={24}
+                          className="w-full h-full object-cover rounded-full"
+                          priority
+                        />
+                      </span>
+                    ) : (
+                      <BiUser size={20} />
+                    )}
+
+                    <span>{session?.user?.name}</span>
+                  </div>
+                )}
                 <div
                   onClick={() => {
                     if (status !== "authenticated") {
@@ -165,7 +227,7 @@ export const Sidebar = () => {
                   } gap-3 px-3 py-2 rounded-md`}
                 >
                   <MdLogout size={20} />
-                  <span>{session?.user?.name || "Login"}</span>
+                  <span>{status === "authenticated" ? "Logout" : "Login"}</span>
                 </div>
               </div>
             </nav>
