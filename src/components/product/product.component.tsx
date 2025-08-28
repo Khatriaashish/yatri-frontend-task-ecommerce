@@ -15,7 +15,8 @@ export const Product: FC<Comp.IProductComponent> = ({ product }) => {
   const handleProductClick = () => {
     router.push(`/product/${product.id}`);
   };
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     dispatch(addProduct({ ...product, quantity: 1 }));
     toast.success("Product added to cart. Checkout the cart page.");
   };
