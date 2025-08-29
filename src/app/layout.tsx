@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="">
+      <head>
+        <meta name="theme-color" content="#1e293b"></meta>
+      </head>
       <body
         className={`${quicksand.className} antialiased bg-black text-white min-h-screen h-full w-full`}
         style={{
