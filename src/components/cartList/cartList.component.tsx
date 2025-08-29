@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { CartItem } from "../cartItem/cartItem.component";
 import { FiTrash2 } from "react-icons/fi";
 import { FaRegArrowAltCircleRight } from "react-icons/fa";
@@ -18,13 +18,20 @@ interface CartListProps {
 export const CartList: FC<CartListProps> = ({ items }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-
+  const [navigationLoading, setNavigationLoading] = useState(false);
   const handleClearCart = () => {
     dispatch(clearCart());
   };
 
-  const handleProceed = () => {
-    router.push("/checkout");
+  const handleProceed = async () => {
+    setNavigationLoading(true);
+    try {
+      await router.push("/checkout");
+    } catch (err) {
+      console.error("Navigation error:", err);
+    } finally {
+      setNavigationLoading(false);
+    }
   };
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -54,9 +61,10 @@ export const CartList: FC<CartListProps> = ({ items }) => {
       <div className="actions flex gap-2">
         <button
           onClick={handleProceed}
+          disabled={navigationLoading}
           className="mt-6 bg-slate-500 hover:bg-slate-600 dark:bg-slate-700 dark:hover:bg-slate-800 cursor-pointer text-white py-2 px-4 rounded transition-colors duration-200 w-full font-semibold flex items-center justify-center gap-2"
         >
-          <span>Proceed</span>
+          <span>{navigationLoading ? "loading..." : "proceed"}</span>
           <FaRegArrowAltCircleRight className="w-5 h-5" />
         </button>
         <button

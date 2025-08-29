@@ -22,7 +22,7 @@ export const Product: FC<Comp.IProductComponent> = ({ product }) => {
   };
   return (
     <div
-      className="eachProduct bg-black/20 backdrop-blur-2xl rounded-lg shadow-xl hover:scale-110 cursor-pointer overflow-hidden hover:shadow-xl transition-all duration-500 pt-4 "
+      className="eachProduct bg-black/20 backdrop-blur-2xl rounded-lg shadow-xl hover:scale-110 cursor-pointer overflow-hidden hover:shadow-xl transition-all duration-500 pt-4 md:max-w-[260px]"
       style={{
         background:
           "radial-gradient(circle at top right, #1e293b 0%, #000000 60%, #000 100%)",

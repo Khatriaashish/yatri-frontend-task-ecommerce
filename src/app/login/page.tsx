@@ -3,12 +3,7 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  HiOutlineShoppingBag,
-  HiOutlineSparkles,
-  HiOutlineHeart,
-  HiOutlineStar,
-} from "react-icons/hi";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
@@ -47,12 +42,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Decorative Background Elements */}
       <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-10 blur-3xl"></div>
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full opacity-10 blur-3xl"></div>
 
       <div className="max-w-md w-full relative z-10">
-        {/* Header Section */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mb-6 shadow-2xl shadow-purple-500/25">
             <HiOutlineShoppingBag className="w-10 h-10 text-white" />
@@ -68,7 +61,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Login Cards */}
+        {/* Login Buttons */}
         <div className="space-y-4">
           {/* Google Login */}
           <button
@@ -77,9 +70,7 @@ export default function LoginPage() {
             className="w-full group relative overflow-hidden bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 hover:border-purple-500 rounded-xl px-6 py-4 transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:-translate-y-1"
           >
             <div className="flex items-center justify-center space-x-3">
-              <div className="w-6 h-6 bg-gradient-to-r from-red-500 to-yellow-500 rounded-full flex items-center justify-center">
-                <FcGoogle className="w-4 h-4 text-white" />
-              </div>
+              <FcGoogle className="w-4 h-4 text-white" />{" "}
               <span className="text-gray-200 font-semibold text-lg">
                 {isLoading === "google"
                   ? "Signing in..."
@@ -96,9 +87,8 @@ export default function LoginPage() {
             className="w-full group relative overflow-hidden bg-gray-900 hover:bg-gray-800 text-white rounded-xl px-6 py-4 transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:shadow-blue-500/25 transform hover:-translate-y-1 border border-gray-700"
           >
             <div className="flex items-center justify-center space-x-3">
-              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-                <FaGithub className="w-4 h-4 text-gray-900" />
-              </div>
+              <FaGithub className="w-4 h-4 text-white-900" />
+
               <span className="font-semibold text-lg">
                 {isLoading === "github"
                   ? "Signing in..."

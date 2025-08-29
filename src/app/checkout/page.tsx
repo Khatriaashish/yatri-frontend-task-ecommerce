@@ -2,14 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useSelector } from "@/store/hooks.store";
+import { useDispatch, useSelector } from "@/store/hooks.store";
 import { OrderSuccess } from "@/components/orderSuccess/orderSuccess.component";
 import { OrderForm } from "@/components";
 import { CartSummary } from "@/components/cartSummary/cartSummary.component";
 import toast from "react-hot-toast";
 import { MdRemoveShoppingCart } from "react-icons/md";
+import { clearCart } from "@/store/redux/cart/cart.slice";
 
 export default function CheckoutPage() {
+  const dispatch = useDispatch();
   const [orderPlaced, setOrderPlaced] = useState(false);
   const { cartProducts } = useSelector((state) => state.cart);
 
@@ -18,8 +20,9 @@ export default function CheckoutPage() {
       toast.error("Please add products to cart first");
       return;
     }
-    // could trigger API call here
+
     setOrderPlaced(true);
+    dispatch(clearCart());
   };
 
   if (orderPlaced) {

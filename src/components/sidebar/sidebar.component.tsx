@@ -101,7 +101,7 @@ export const Sidebar = () => {
               <div
                 className={`group flex items-center  gap-3 px-3 py-2  ${
                   pathname === "/login" ? "text-white" : "text-gray-500"
-                } hover:text-white rounded-md `}
+                } rounded-md`}
               >
                 <span className="pl-2">
                   {session?.user?.image ? (
@@ -132,7 +132,7 @@ export const Sidebar = () => {
             )}
 
             <div
-              className={`group flex items-center  gap-3 px-3 py-2  ${
+              className={`group flex items-center cursor-pointer  gap-3 px-3 py-2  ${
                 pathname === "/login" ? "text-white" : "text-gray-500"
               } hover:text-white rounded-md `}
               onClick={() => {
