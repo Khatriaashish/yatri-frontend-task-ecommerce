@@ -7,6 +7,7 @@ import { getProdcutsAction } from "@/store/redux/product/product.slice";
 import { useDebounce } from "@/hooks/useDebounce.hook";
 import { usePagination } from "@/hooks/usePagination.hook";
 import { PaginationBar } from "@/components/paginationBar/paginationBar.component";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -39,6 +40,12 @@ export default function Home() {
     try {
       const regex = new RegExp(debouncedSearchTerm.trim(), "i");
       const filtered = products.filter((product) => regex.test(product.title));
+      if (filtered.length === 0) {
+        toast.error("No relevant products found. Try different keywords.");
+        setFilteredProducts(products);
+        goToPage(1);
+        return;
+      }
       setFilteredProducts(filtered);
       goToPage(1);
     } catch (err) {

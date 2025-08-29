@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
+const protectedRoutes = ["/checkout", "/cart"];
+
 export async function middleware(request: NextRequest) {
   console.log("=== MIDDLEWARE EXECUTING ===");
   console.log("URL:", request.nextUrl.pathname);
@@ -9,7 +11,7 @@ export async function middleware(request: NextRequest) {
   console.log("Headers:", Object.fromEntries(request.headers.entries()));
 
   // Test if this is the checkout route
-  if (request.nextUrl.pathname === "/checkout") {
+  if (protectedRoutes.includes(request.nextUrl.pathname)) {
     console.log("Checkout route detected, checking authentication...");
 
     try {
@@ -34,5 +36,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/checkout"],
+  matcher: ["/checkout", "/cart"],
 };

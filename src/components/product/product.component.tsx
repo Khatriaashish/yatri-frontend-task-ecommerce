@@ -2,6 +2,7 @@
 
 import { useDispatch } from "@/store/hooks.store";
 import { addProduct } from "@/store/redux/cart/cart.slice";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
@@ -11,12 +12,17 @@ import { AiOutlineShopping } from "react-icons/ai";
 export const Product: FC<Comp.IProductComponent> = ({ product }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const session = useSession();
 
   const handleProductClick = () => {
     router.push(`/product/${product.id}`);
   };
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    if (session.status !== "authenticated") {
+      toast.error("Please login to add products to cart");
+      return;
+    }
     dispatch(addProduct({ ...product, quantity: 1 }));
     toast.success("Product added to cart. Checkout the cart page.");
   };

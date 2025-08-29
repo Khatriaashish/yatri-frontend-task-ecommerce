@@ -4,17 +4,20 @@ import { useDispatch, useSelector } from "@/store/hooks.store";
 import { getProductByIdAction } from "@/store/redux/product/product.slice";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductDetailSkeleton, QuantitySelector } from "..";
 import { FaShoppingCart } from "react-icons/fa";
 import { Button } from "../button/button.component";
 import { addProduct } from "@/store/redux/cart/cart.slice";
 import toast from "react-hot-toast";
 import { FiAlertCircle } from "react-icons/fi";
+import { useSession } from "next-auth/react";
 
 export const ProductDetail = () => {
   const params = useParams();
   const dispatch = useDispatch();
+  const session = useSession();
+
   const productId = Number(params?.productId);
 
   const [activeProduct, setActiveProduct] = useState<{
@@ -24,7 +27,6 @@ export const ProductDetail = () => {
   }>({ data: {} as Api.IProduct, loading: true, error: "" });
 
   const [quantity, setQuantity] = useState(1);
-  const { cartProducts } = useSelector((state) => state.cart);
 
   useEffect(() => {
     if (!productId) return;
@@ -40,6 +42,10 @@ export const ProductDetail = () => {
   }, [productId, dispatch]);
 
   const handleAddToCart = () => {
+    if (session.status !== "authenticated") {
+      toast.error("Please login to add products to cart");
+      return;
+    }
     dispatch(addProduct({ ...activeProduct.data, quantity }));
     toast.success("Product added to cart. Checkout the cart page.");
   };
