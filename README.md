@@ -1,6 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yatri store
+
+## Overview
+
+This project is a full-featured e-commerce web application built with Next.js, Redux, and integrated with Fakestore API for product data. It includes authentication, cart management, checkout flow, and a responsive UI with advanced UX features.
 
 ## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher recommended)
+- npm or yarn
+- Git
+
+### Installation & Setup
+
+1. Clone the repository: `git clone git@github.com:Khatriaashish/yatri-frontend-task-ecommerce.git`
+2. Set up your environment variables
+
+- Create a `.env.local` file in the root directory.
+- Add necessary environment variables as suggested in .env.example
+
+3. Install dependencies: `yarn` or `npm i`
+4. Run the development server:
 
 First, run the development server:
 
@@ -14,23 +35,75 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What’s Included
 
-## Learn More
+### Home Page
 
-To learn more about Next.js, take a look at the following resources:
+- Fetches products from [Fakestore API](https://fakestoreapi.com).
+- Maintains product state using **Redux**.
+- Uses **Redux Async Thunk** for asynchronous API calls.
+- Displays **paginated product data** with 6 products per page.
+- Each product includes an **Add to Cart** button.
+- Shows a **loading skeleton** UI while fetching data.
+- Has an **error state UI** for handling fetch failures.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Product Detail Page
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Displays detailed information about a product:
+- Product image
+- Name
+- Description
+- Quantity selector
+- Add to cart button
+- Shows a **loading skeleton** UI while fetching data.
+- Has an **error state UI** for handling fetch failures.
 
-## Deploy on Vercel
+### Cart Page
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Protected route** implemented using Next.js middleware.
+- Cart state persisted with **redux-persist**.
+- Users can customize product quantities.
+- Ability to delete individual products or clear the entire cart.
+- Handles error states gracefully with UI feedback.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Checkout Page
+
+- **Protected route** implemented using Next.js middleware.
+- Displays a cart summary.
+- Autofills user information from authentication data.
+- Robust form validation for checkout details.
+- Checkout simulation with appropriate user feedback.
+
+### Login Page
+
+- Integrated **Google** and **GitHub** OAuth authentication.
+- Simplified login experience with social sign-in options.
+
+### Sidebar Navigation
+
+- Responsive sidebar with navigation links to:
+- Home
+- Cart
+- Checkout
+- Profile
+- Highlights the active page dynamically.
+- Collapses into a hamburger menu on smaller screens for mobile usability.
+- Includes a **search bar** for filtering products by name.
+
+---
+
+## Additional Features
+
+- **Pagination** on the product list (6 products per page).
+- Fully **responsive design** optimized for:
+- Mobile devices
+- Tablets
+- Desktop screens
+- Toast notifications for success and error actions throughout the app.
+- Global Error Boundary
+
+---
