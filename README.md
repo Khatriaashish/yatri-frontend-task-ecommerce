@@ -98,7 +98,8 @@ bun dev
 
 ## Additional Features
 
-- **Pagination** on the product list (6 products per page).
+- **Pagination** on the product list (6 products per page) - client side pagination.
+- Search bar intiating controlled search including debounce
 - Fully **responsive design** optimized for:
 - Mobile devices
 - Tablets
